@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1878635721538406464}
   - component: {fileID: 1878635721538406465}
   - component: {fileID: 8368415363111662740}
+  - component: {fileID: 7436489652945524398}
   m_Layer: 5
   m_Name: MineFieldButton
   m_TagString: Untagged
@@ -122,19 +123,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1878635721538406464}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8368415363111662740}
-        m_TargetAssemblyTypeName: GridButton, Assembly-CSharp
-        m_MethodName: MineClicked
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &8368415363111662740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,10 +136,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c37aa15c81d46ab4dbe768e0148e6a63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imageColor: {fileID: 1878635721538406464}
+  trigger: {fileID: 7436489652945524398}
+  tileText: {fileID: 1878635722605044154}
   isMarkedAsBomb: 0
   ismine: 0
   xOnGrid: 0
   yOnGrid: 0
+--- !u!114 &7436489652945524398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878635721538406591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &1878635722605044152
 GameObject:
   m_ObjectHideFlags: 0
