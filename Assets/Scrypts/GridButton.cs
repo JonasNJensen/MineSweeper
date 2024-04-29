@@ -44,7 +44,7 @@ public class GridButton : MonoBehaviour
     public void CountNearbyMines(int x, int y)
     {
         if (!Valiation(x, y)) return;
-        
+
 
         int gridSizeX = gridmanager.gridSizeX;
         int gridSizeY = gridmanager.gridSizeY;
@@ -70,13 +70,22 @@ public class GridButton : MonoBehaviour
             int nx = x + dx[i];
             int ny = y + dy[i];
             // Check if the adjacent cell is within bounds
-            if (nx >= 0 && nx < gridSizeX && ny >= 0 && ny < gridSizeY)
+            if (nx < 0) 
+                nx = gridSizeX - 1;
+            
+            if (nx >= gridSizeX) 
+                nx = 0;
+
+            if (ny < 0) 
+                ny = gridSizeY - 1;
+
+            if (ny >= gridSizeY) 
+                ny = 0;
+
+            // Check if the adjacent cell contains a mine
+            if (gridmanager.grid[nx, ny].ismine)
             {
-                // Check if the adjacent cell contains a mine
-                if (gridmanager.grid[nx, ny].ismine)
-                {
-                    count++;
-                }
+                count++;
             }
         }
         gridmanager.grid[x, y].tileText.text = count.ToString();

@@ -13,6 +13,9 @@ public class MinesweeperGrid : MonoBehaviour
     public GameObject Game;
     public GameObject mineFieldButtonPrefab; // Reference to your MineFieldButton prefab
     public GameObject gameMap; // Reference to your GameMap object
+    public TMP_InputField row;
+    public TMP_InputField col;
+    public TMP_InputField bomb;
     // Define the grid size
     public int gridSizeX = 10;
     public int gridSizeY = 10;
@@ -59,16 +62,33 @@ public class MinesweeperGrid : MonoBehaviour
 
     public void InitializeGrid()
     {
+        if (!string.IsNullOrEmpty(row.text))
+        {
+            if (IsDigitsOnly(row.text))
+                gridSizeX = int.Parse(row.text);
+        }
+        if (!string.IsNullOrEmpty(col.text))
+        {
+            if (IsDigitsOnly(col.text))
+                gridSizeY = int.Parse(col.text);
+        }
+        if (!string.IsNullOrEmpty(bomb.text))
+        {
+            if (IsDigitsOnly(bomb.text))
+                mineCount = int.Parse(bomb.text);
+        }
         //marks win as true so the player wont imidiatly win
         win = false;
         bombsPlaced = false;
         ValidationCheck();
-
-        if (grid == null) SwapCanvas();
-
-        minesLeftCount = mineCount;
+        if (grid == null)
+        {
+            SwapCanvas();
+        }
         foreach (Transform t in gameMap.transform)
             Destroy(t.gameObject);
+        minesLeftCount = mineCount;
+
 
         // Populate the grid with cells
         CreateGrid();
@@ -82,14 +102,17 @@ public class MinesweeperGrid : MonoBehaviour
     public void CreateGrid()
     {
         grid = new GridButton[gridSizeX, gridSizeY];
-        for (int x = gridSizeX / 2 * -1; x < gridSizeX / 2; x++)
+
+        for (int x = gridSizeX / 2 * -1; x < gridSizeX / 2 + (gridSizeX % 2); x++)
         {
-            for (int y = gridSizeY / 2 * -1; y < gridSizeY / 2; y++)
+
+            for (int y = gridSizeY / 2 * -1; y < gridSizeY / 2 + (gridSizeY % 2); y++)
             {
                 // Instantiate a MineFieldButton prefab
                 GridButton mineFieldButton = Instantiate(mineFieldButtonPrefab, gameMap.transform).GetComponent<GridButton>();
                 // Set its position based on grid coordinates
-                mineFieldButton.transform.position = new Vector2((x * 50) + gameMap.transform.position.x + 25, (y * 50) + gameMap.transform.position.y + 25);
+                mineFieldButton.transform.position = new Vector2((x * 50) + gameMap.transform.position.x + 25 - (gridSizeY % 2 * 25), 
+                    (y * 50) + gameMap.transform.position.y + 25 - (gridSizeY % 2 * 25));
 
                 mineFieldButton.xOnGrid = x + gridSizeX / 2;
                 mineFieldButton.yOnGrid = y + gridSizeY / 2;
@@ -127,9 +150,31 @@ public class MinesweeperGrid : MonoBehaviour
         if (mineCount <= 0) mineCount = 1;
     }
 
+    public void ExitToMenue()
+    {
+        foreach (Transform t in gameMap.transform)
+            Destroy(t.gameObject);
+        SwapCanvas();
+    }
+
     public void SwapCanvas()
     {
         menu.SetActive(!menu.activeSelf);
         Game.SetActive(!Game.activeSelf);
+    }
+
+    bool IsDigitsOnly(string str)
+    {
+        foreach (char c in str)
+        {
+            if (c <= '0' || c >= '9')
+                return false;
+        }
+        return true;
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }
