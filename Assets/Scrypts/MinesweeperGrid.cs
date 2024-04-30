@@ -152,8 +152,10 @@ public class MinesweeperGrid : MonoBehaviour
 
     public void ExitToMenue()
     {
+        bombsPlaced = false;
         foreach (Transform t in gameMap.transform)
             Destroy(t.gameObject);
+        grid = null;
         SwapCanvas();
     }
 
@@ -167,7 +169,7 @@ public class MinesweeperGrid : MonoBehaviour
     {
         foreach (char c in str)
         {
-            if (c <= '0' || c >= '9')
+            if (c < '0' || c > '9')
                 return false;
         }
         return true;
